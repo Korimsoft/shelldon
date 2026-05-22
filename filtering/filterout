@@ -10,16 +10,11 @@ BEGIN {
     }
 }
 {
-    matched = 0;
     for (i in words) {
-        if($0 ~ words[i]) {
-            matched=1;
-            break;
+        if ($0 ~ words[i]) {
+            next
         }
     }
 
-    if(!matched) {
-        print $0;
-    }
-    matched = 0;
+    print
 }

@@ -11,8 +11,9 @@ BEGIN {
 }
 {
     for (i in words) {
-        if($0 ~ words[i]) {
-            print $0;
+        if ($0 ~ words[i]) {
+            print
+            next
         }
     }
 }

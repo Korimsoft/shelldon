@@ -1,17 +1,25 @@
 #!/usr/bin/gawk -f
 
-# Highlights occurence of words in text
-# usage: cat mylogfile | ./hiword <words>  -OR- ./hiword mylogfile.log <words>
+# Highlights occurrences of words or regex patterns in text
+# usage: cat mylogfile | ./hiword <words>
+# usage: ./hiword <words> < mylogfile.log
 
 BEGIN {
-    for(i = 1; i < ARGC; i++) {
+    color_start = sprintf("%c[4;32m", 27)
+    color_end = sprintf("%c[0m", 27)
+
+    for (i = 1; i < ARGC; i++) {
         words[i] = ARGV[i]
         ARGV[i] = ""
     }
 }
+
 {
+    line = $0
+
     for (w in words) {
-        gsub(words[w], "[4;32m" words[w] "[0m");
+        gsub(words[w], color_start "&" color_end, line)
     }
-    print;
+
+    print line
 }

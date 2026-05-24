@@ -60,12 +60,13 @@
                     local header_with_padding=" ${padding}${header_text}${padding} "
                     local header_length=${#header_with_padding}
                     local border_length=$([ $header_length -gt $_DEFAULT_MIN_WIDTH ] && echo "$header_length" || echo "$_DEFAULT_MIN_WIDTH")
-                    local top_border="${_BOX_TOP_LEFT}$(printf "${_BOX_HORIZONTAL}%.0s" $(seq 1 $((border_length-2))))${_BOX_TOP_RIGHT}"
-                    local bottom_border="${_BOX_BOTTOM_LEFT}$(printf "${_BOX_HORIZONTAL}%.0s" $(seq 1 $((border_length-2))))${_BOX_BOTTOM_RIGHT}"
+                    local content_width=$((border_length-2))
+                    local top_border="${_BOX_TOP_LEFT}$(printf "${_BOX_HORIZONTAL}%.0s" $(seq 1 $content_width))${_BOX_TOP_RIGHT}"
+                    local bottom_border="${_BOX_BOTTOM_LEFT}$(printf "${_BOX_HORIZONTAL}%.0s" $(seq 1 $content_width))${_BOX_BOTTOM_RIGHT}"
                     echo "$top_border"
-                    printf "${_BOX_VERTICAL}%-%ds${_BOX_VERTICAL}\n" $border_length
-                    printf "${_BOX_VERTICAL}%-%ds${_BOX_VERTICAL}\n" $border_length "$header_with_padding"
-                    printf "${_BOX_VERTICAL}%-%ds${_BOX_VERTICAL}\n" $border_length
+                    printf "%s%-*s%s\n" "$_BOX_VERTICAL" "$content_width" "" "$_BOX_VERTICAL"
+                    printf "%s%-*s%s\n" "$_BOX_VERTICAL" "$content_width" "$header_with_padding" "$_BOX_VERTICAL"
+                    printf "%s%-*s%s\n" "$_BOX_VERTICAL" "$content_width" "" "$_BOX_VERTICAL"
                     echo "$bottom_border"
                   }
 

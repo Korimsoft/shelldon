@@ -1,8 +1,8 @@
 # Shelldon
 
-Shelldon is a small collection of shell utilities for filtering, highlighting, and formatting command-line output.
+Shelldon is a small collection of shell utilities for filtering, highlighting, Git helpers, and formatting command-line output.
 
-The project is intended for interactive shell usage, log inspection, and small scripts where lightweight text-processing helpers are useful.
+The project is intended for interactive shell usage, log inspection, Git workflow shortcuts, and small scripts where lightweight text-processing helpers are useful.
 
 ## Contents
 
@@ -13,6 +13,8 @@ shelldon/
   filtering/
     filterword
     filterout
+  git-helpers/
+    commitall.sh
   highlighting/
     hiword
   output/
@@ -29,6 +31,12 @@ The filtering and highlighting tools use GNU Awk:
 
 ```sh
 gawk
+```
+
+The Git helper scripts require Git:
+
+```sh
+git
 ```
 
 The output helper is a shell script intended to be sourced from another shell script.
@@ -48,6 +56,7 @@ Make sure the utility scripts are executable:
 chmod +x filtering/filterword
 chmod +x filtering/filterout
 chmod +x highlighting/hiword
+chmod +x git-helpers/commitall.sh
 ```
 
 Optionally, add the utility directories to your `PATH`:
@@ -55,6 +64,7 @@ Optionally, add the utility directories to your `PATH`:
 ```sh
 export PATH="$PATH:/path/to/shelldon/filtering"
 export PATH="$PATH:/path/to/shelldon/highlighting"
+export PATH="$PATH:/path/to/shelldon/git-helpers"
 ```
 
 To make this permanent, add the relevant `export PATH=...` lines to your shell profile, such as:
@@ -289,6 +299,39 @@ Example output:
 ******* END *******
 ```
 
+## Git helpers
+
+### `commitall.sh`
+
+`commitall.sh` stages all changes in the current Git repository and creates a commit using the provided commit message.
+
+Usage:
+
+```sh
+commitall.sh "commit message"
+```
+
+Or, if the `git-helpers` directory is not in your `PATH`:
+
+```sh
+/path/to/shelldon/git-helpers/commitall.sh "commit message"
+```
+
+Example:
+
+```sh
+git-helpers/commitall.sh "Update documentation"
+```
+
+The script:
+
+- verifies that the current directory is inside a Git repository
+- requires a commit message
+- stages all changes with `git add --all`
+- skips committing when there are no staged changes
+- commits with `git commit -m`
+- uses the `output/output` helpers for formatted status messages
+
 ## Git aliases
 
 The `aliases/git` file contains short aliases for common Git commands.
@@ -300,6 +343,7 @@ alias gife="git fetch"
 alias gicam="git commit -a -m"
 alias gicaa="git commit -a --amend"
 alias gip="git push"
+alias gista="git status"
 ```
 
 To use them in your current shell session:
